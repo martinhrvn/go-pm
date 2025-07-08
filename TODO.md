@@ -6,21 +6,21 @@
 ## Core Requirements
 
 ### Configuration File (.gopmrc)
-- [ ] Support YAML-like format parsing
-- [ ] Support for `locations` array
-- [ ] Support for `name` field (optional display name)
-- [ ] Support for `location` field (path, can include globs)
-- [ ] Support for `type` field (optional, for package manager context)
+- [x] Support YAML-like format parsing
+- [x] Support for `locations` array
+- [x] Support for `name` field (optional display name)
+- [x] Support for `location` field (path, can include globs)
+- [x] Support for `type` field (optional, for package manager context)
   - initially support `npm`, `yarn`, `pnpm`, `go`
   - this basically means in the folder it will automatically find the appropriate package manager config file
   - generate list of commands based on the type
-- [ ] Support for `commands` array
+- [x] Support for `commands` array
   - this can be specified as a list of commands, if type is specified for project it will add this as extra commands
 - [ ] Support glob patterns in location paths (e.g., `packages/bar/*`)
     - This should be simple eg. expand * to all directories in the path, but not recurse into subdirectories
 - [ ] Config file discovery (search current dir and parents)
-- [ ] Validate config file structure
-- [ ] Handle malformed config gracefully
+- [x] Validate config file structure
+- [x] Handle malformed config gracefully
 
 ### Command Selection
 - [ ] Integration with fzf for fuzzy selection
@@ -78,12 +78,12 @@ The go part should handle config parsing, command selection, the execution part 
 - [ ] Ensure cross-platform compatibility (Linux/Mac/Windows)
 
 ### Code Structure
-- [ ] Clear separation of concerns
-- [ ] Config parsing module
+- [x] Clear separation of concerns
+- [x] Config parsing module
 - [ ] Command execution module
 - [ ] FZF integration module
-- [ ] Error handling throughout
-- [ ] Unit tests for core functionality
+- [x] Error handling throughout
+- [x] Unit tests for core functionality
 
 ### Distribution
 - [ ] Single binary distribution
@@ -96,10 +96,10 @@ The go part should handle config parsing, command selection, the execution part 
 ## Testing Checklist
 
 ### Unit Tests
-- [ ] Config file parsing tests
+- [x] Config file parsing tests
 - [ ] Glob pattern expansion tests
 - [ ] Command parsing tests
-- [ ] Error handling tests
+- [x] Error handling tests
 
 ### Integration Tests
 - [ ] Test with real monorepo structure
@@ -140,7 +140,7 @@ The go part should handle config parsing, command selection, the execution part 
 
 ## Current Status
 - [x] Initial concept defined
-- [ ] Basic implementation started
+- [x] Basic implementation started
 - [ ] Core features working
 - [ ] Testing complete
 - [ ] Documentation complete
