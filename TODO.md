@@ -16,7 +16,7 @@
   - generate list of commands based on the type
 - [x] Support for `commands` array
   - this can be specified as a list of commands, if type is specified for project it will add this as extra commands
-- [ ] Support glob patterns in location paths (e.g., `packages/bar/*`)
+- [x] Support glob patterns in location paths (e.g., `packages/bar/*`)
     - This should be simple eg. expand * to all directories in the path, but not recurse into subdirectories
 - [ ] Config file discovery (search current dir and parents)
 - [x] Validate config file structure
@@ -97,21 +97,21 @@ The go part should handle config parsing, command selection, the execution part 
 
 ### Unit Tests
 - [x] Config file parsing tests
-- [ ] Glob pattern expansion tests
+- [x] Glob pattern expansion tests
 - [ ] Command parsing tests
 - [x] Error handling tests
 
 ### Integration Tests
-- [ ] Test with real monorepo structure
+- [x] Test with real monorepo structure
 - [ ] Test with various .gopmrc formats
 - [ ] Test with missing fzf
-- [ ] Test with malformed configs
+- [x] Test with malformed configs
 - [ ] Test with non-existent locations
 
 ### Edge Cases
-- [ ] Empty config file
+- [x] Empty config file
 - [ ] No commands defined
-- [ ] Invalid glob patterns
+- [x] Invalid glob patterns
 - [ ] Commands with special characters
 - [ ] Very long command lists
 - [ ] Nested monorepo structures

@@ -29,5 +29,12 @@ func LoadConfig(configPath string) (*Config, error) {
 		return nil, err
 	}
 
+	// Expand glob patterns in locations
+	expandedLocations, err := ExpandGlobPatterns(config.Locations)
+	if err != nil {
+		return nil, err
+	}
+	config.Locations = expandedLocations
+
 	return &config, nil
 }
