@@ -45,8 +45,8 @@ The go part should handle config parsing, command selection, the execution part 
 
 ### Project type implementation
 The project types we should support intitally are:
-- [ ] npm - should find package.json and run npm commands
-  - should allow to set the package manager to use, eg. npm, yarn, pnpm
+- [x] npm - should find package.json and run npm commands
+  - [x] should allow to set the package manager to use, eg. npm, yarn, pnpm
 - [ ] go - should find go.mod and run go commands
 
 
@@ -88,8 +88,9 @@ The project types we should support intitally are:
 ### Code Structure
 - [x] Clear separation of concerns
 - [x] Config parsing module
-- [ ] Command execution module
-- [ ] FZF integration module
+- [x] Command execution module
+- [x] FZF integration module
+- [x] Project type system (npm, yarn, pnpm)
 - [x] Error handling throughout
 - [x] Unit tests for core functionality
 
@@ -106,7 +107,7 @@ The project types we should support intitally are:
 ### Unit Tests
 - [x] Config file parsing tests
 - [x] Glob pattern expansion tests
-- [ ] Command parsing tests
+- [x] Project type parsing tests (npm, yarn, pnpm)
 - [x] Error handling tests
 
 ### Integration Tests
@@ -150,6 +151,8 @@ The project types we should support intitally are:
 - [x] Initial concept defined
 - [x] Basic implementation started
 - [x] Core features working
+- [x] Project type system implemented (npm, yarn, pnpm)
+- [x] Shell script integration complete
 - [x] Testing complete
 - [ ] Documentation complete
 - [ ] First release
