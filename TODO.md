@@ -23,10 +23,10 @@
 - [x] Handle malformed config gracefully
 
 ### Command Selection
-- [ ] Integration with fzf for fuzzy selection
-- [ ] Display format: `[location-or-name] command`
-- [ ] Support for keyboard interrupts (Ctrl+C)
-- [ ] Show helpful error messages
+- [x] Integration with fzf for fuzzy selection
+- [x] Display format: `[location-or-name] command`
+- [x] Support for keyboard interrupts (Ctrl+C)
+- [x] Show helpful error messages
 - [ ] The cli interface should have following commands
   - [x] gopm list - output all available location:command pairs
   - [x] gopm list --format=fzf - format for fzf selection
@@ -141,8 +141,8 @@ The go part should handle config parsing, command selection, the execution part 
 ## Current Status
 - [x] Initial concept defined
 - [x] Basic implementation started
-- [ ] Core features working
-- [ ] Testing complete
+- [x] Core features working
+- [x] Testing complete
 - [ ] Documentation complete
 - [ ] First release
 

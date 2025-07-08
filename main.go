@@ -16,6 +16,8 @@ func main() {
 	switch command {
 	case "list":
 		handleListCommand()
+	case "select":
+		handleSelectCommand()
 	case "help":
 		showUsage()
 	default:
@@ -53,6 +55,28 @@ func handleListCommand() {
 	}
 }
 
+func handleSelectCommand() {
+	// Load config from discovery
+	config, err := LoadConfigFromDiscovery()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error loading config: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Run fzf selection
+	result, err := RunFzf(config)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error with selection: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Display the result
+	fmt.Printf("Selected:\n")
+	fmt.Printf("  Directory: %s\n", result.Directory)
+	fmt.Printf("  Command: %s\n", result.Command)
+	fmt.Printf("  Display Name: %s\n", result.DisplayName)
+}
+
 func showUsage() {
 	fmt.Println("gopm - Go Project Manager")
 	fmt.Println()
@@ -62,9 +86,11 @@ func showUsage() {
 	fmt.Println("COMMANDS:")
 	fmt.Println("    list                     List all available location:command pairs")
 	fmt.Println("    list --format=fzf        List commands in fzf format")
+	fmt.Println("    select                   Interactive command selection with fzf")
 	fmt.Println("    help                     Show this help message")
 	fmt.Println()
 	fmt.Println("EXAMPLES:")
 	fmt.Println("    gopm list")
 	fmt.Println("    gopm list --format=fzf")
+	fmt.Println("    gopm select")
 }
