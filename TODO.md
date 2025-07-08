@@ -28,11 +28,11 @@
 - [ ] Support for keyboard interrupts (Ctrl+C)
 - [ ] Show helpful error messages
 - [ ] The cli interface should have following commands
--  gopm list - output all available location:command pairs
-   gopm list --format=fzf - format for fzf selection
-   gopm get --location=X --command=Y - get execution details as JSON
-   gopm help - show usage and available commands
-   Handle command-line argument parsing
+  - [x] gopm list - output all available location:command pairs
+  - [x] gopm list --format=fzf - format for fzf selection
+  - [ ] gopm get --location=X --command=Y - get execution details as JSON
+  - [x] gopm help - show usage and available commands
+  - [x] Handle command-line argument parsing
 
 ### Command Execution
 The go part should handle config parsing, command selection, the execution part should be done in some shell script.
