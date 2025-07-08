@@ -36,11 +36,19 @@
 
 ### Command Execution
 The go part should handle config parsing, command selection, the execution part should be done in some shell script.
-- [ ] Change directory to the specified location before execution
-- [ ] Execute the selected command
-- [ ] Pass through stdin/stdout/stderr
-- [ ] Handle command failures appropriately
-- [ ] Support complex commands with arguments
+- [x] Change directory to the specified location before execution
+- [x] Execute the selected command
+- [x] Handle command failures appropriately
+- [x] Support complex commands with arguments
+- [x] Shell script integration for execution
+
+
+### Project type implementation
+The project types we should support intitally are:
+- [ ] npm - should find package.json and run npm commands
+  - should allow to set the package manager to use, eg. npm, yarn, pnpm
+- [ ] go - should find go.mod and run go commands
+
 
 ## Nice-to-Have Features
 

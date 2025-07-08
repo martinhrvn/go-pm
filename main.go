@@ -70,11 +70,9 @@ func handleSelectCommand() {
 		os.Exit(1)
 	}
 
-	// Display the result
-	fmt.Printf("Selected:\n")
-	fmt.Printf("  Directory: %s\n", result.Directory)
-	fmt.Printf("  Command: %s\n", result.Command)
-	fmt.Printf("  Display Name: %s\n", result.DisplayName)
+	// Output as JSON for shell script parsing
+	fmt.Printf(`{"directory":"%s","command":"%s"}`, result.Directory, result.Command)
+	fmt.Println()
 }
 
 func showUsage() {
