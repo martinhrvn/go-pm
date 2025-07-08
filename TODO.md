@@ -18,7 +18,7 @@
   - this can be specified as a list of commands, if type is specified for project it will add this as extra commands
 - [x] Support glob patterns in location paths (e.g., `packages/bar/*`)
     - This should be simple eg. expand * to all directories in the path, but not recurse into subdirectories
-- [ ] Config file discovery (search current dir and parents)
+- [x] Config file discovery (search current dir and parents)
 - [x] Validate config file structure
 - [x] Handle malformed config gracefully
 
