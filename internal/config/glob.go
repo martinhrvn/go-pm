@@ -73,8 +73,14 @@ func expandSingleGlob(loc Location) ([]Location, error) {
 	// Create new Location for each match
 	var result []Location
 	for _, match := range dirMatches {
+		// Use the directory name as the name if original name is generic
+		name := loc.Name
+		if loc.Name == "" || loc.Name == filepath.Base(filepath.Dir(loc.Location)) {
+			name = filepath.Base(match)
+		}
+		
 		newLoc := Location{
-			Name:     loc.Name,
+			Name:     name,
 			Location: match,
 			Type:     loc.Type,
 			Commands: append([]string{}, loc.Commands...),

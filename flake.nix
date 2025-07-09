@@ -143,9 +143,9 @@
             name = "gopm";
           };
           
-          gopm = flake-utils.lib.mkApp {
-            drv = gopm;
-            name = "gopm";
+          gopm-bin = flake-utils.lib.mkApp {
+            drv = gopm-bin;
+            name = "gopm-bin";
           };
         };
         

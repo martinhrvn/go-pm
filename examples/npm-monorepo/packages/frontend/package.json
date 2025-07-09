@@ -1,0 +1,10 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "echo 'Starting application...'",
+    "build": "echo 'Building application...'",
+    "test": "echo 'Running tests...'",
+    "dev": "echo 'Development mode...'"
+  }
+}
