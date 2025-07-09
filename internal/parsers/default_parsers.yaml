@@ -1,0 +1,104 @@
+parsers:
+  npm:
+    detect_files: ["package.json"]
+    base_commands:
+      install: "npm install"
+      audit: "npm audit"
+      outdated: "npm outdated"
+      update: "npm update"
+    builtin_parser: "package_json_scripts"
+    command_template: "npm run {key}"
+    
+  yarn:
+    detect_files: ["package.json"]
+    base_commands:
+      install: "yarn install"
+      audit: "yarn audit"
+      outdated: "yarn outdated"
+      upgrade: "yarn upgrade"
+    builtin_parser: "package_json_scripts"
+    command_template: "yarn {key}"
+    
+  pnpm:
+    detect_files: ["package.json"]
+    base_commands:
+      install: "pnpm install"
+      audit: "pnpm audit"
+      outdated: "pnpm outdated"
+      update: "pnpm update"
+    builtin_parser: "package_json_scripts"
+    command_template: "pnpm run {key}"
+    
+  go:
+    detect_files: ["go.mod"]
+    base_commands:
+      build: "go build ./..."
+      test: "go test ./..."
+      fmt: "go fmt ./..."
+      vet: "go vet ./..."
+      mod: "go mod tidy"
+      clean: "go clean"
+      install: "go install"
+      get: "go get"
+      generate: "go generate ./..."
+      doc: "go doc"
+      version: "go version"
+    builtin_parser: "go_standard"
+    
+  python:
+    detect_files: ["pyproject.toml", "setup.py", "requirements.txt"]
+    base_commands:
+      install: "pip install -e ."
+      test: "python -m pytest"
+      lint: "python -m flake8"
+      format: "python -m black ."
+    parser_command: "python -c \"import toml; print('\\n'.join(toml.load('pyproject.toml').get('project', {}).get('scripts', {}).keys()))\" 2>/dev/null || echo"
+    command_template: "{key}"
+    
+  rust:
+    detect_files: ["Cargo.toml"]
+    base_commands:
+      build: "cargo build"
+      test: "cargo test"
+      run: "cargo run"
+      check: "cargo check"
+      fmt: "cargo fmt"
+      clippy: "cargo clippy"
+      doc: "cargo doc"
+      clean: "cargo clean"
+      update: "cargo update"
+    
+  make:
+    detect_files: ["Makefile", "makefile"]
+    parser_command: "make -qp 2>/dev/null | grep -E '^[a-zA-Z_][a-zA-Z0-9_-]*:' | cut -d: -f1 | grep -v '^\\.' | sort -u"
+    command_template: "make {key}"
+    
+  docker:
+    detect_files: ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"]
+    base_commands:
+      build: "docker build ."
+      up: "docker-compose up"
+      down: "docker-compose down"
+      logs: "docker-compose logs"
+      ps: "docker-compose ps"
+      
+  gradle:
+    detect_files: ["build.gradle", "build.gradle.kts"]
+    base_commands:
+      build: "./gradlew build"
+      test: "./gradlew test"
+      clean: "./gradlew clean"
+      assemble: "./gradlew assemble"
+    parser_command: "./gradlew tasks --all | grep -E '^[a-zA-Z]' | cut -d' ' -f1 | sort -u"
+    command_template: "./gradlew {key}"
+    
+  maven:
+    detect_files: ["pom.xml"]
+    base_commands:
+      compile: "mvn compile"
+      test: "mvn test"
+      package: "mvn package"
+      install: "mvn install"
+      clean: "mvn clean"
+    parser_command: "mvn help:describe -Dcmd=compile | grep -E '^[a-zA-Z]' | cut -d' ' -f1 | sort -u"
+    command_template: "mvn {key}"

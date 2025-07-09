@@ -1,12 +1,16 @@
 package parsers
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed default_parsers.yaml
+var defaultParsersYAML []byte
 
 // ParserConfig represents a single parser configuration
 type ParserConfig struct {
@@ -33,88 +37,66 @@ type ParsersFile struct {
 
 // LoadParsersConfig loads parser configuration from ~/.gopm/parsers.yaml
 func LoadParsersConfig() (*ParsersFile, error) {
+	// Start with embedded defaults
+	defaults, err := loadEmbeddedDefaults()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load embedded defaults: %w", err)
+	}
+
+	// Try to load user config
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get home directory: %w", err)
+		// If we can't get home dir, just use defaults
+		return defaults, nil
 	}
 
 	configPath := filepath.Join(homeDir, ".gopm", "parsers.yaml")
 	
-	// If config doesn't exist, return default parsers
+	// If user config doesn't exist, return defaults
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		return getDefaultParsers(), nil
+		return defaults, nil
 	}
 
 	data, err := os.ReadFile(configPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read parsers config: %w", err)
+		// If we can't read user config, return defaults
+		return defaults, nil
 	}
 
-	var config ParsersFile
-	if err := yaml.Unmarshal(data, &config); err != nil {
-		return nil, fmt.Errorf("failed to parse parsers config: %w", err)
+	var userConfig ParsersFile
+	if err := yaml.Unmarshal(data, &userConfig); err != nil {
+		return nil, fmt.Errorf("failed to parse user parsers config: %w", err)
 	}
 
-	// Merge with defaults
-	defaults := getDefaultParsers()
-	if config.Parsers == nil {
-		config.Parsers = make(map[string]ParserConfig)
+	// Merge user config with defaults (user config takes precedence)
+	merged := &ParsersFile{
+		Parsers: make(map[string]ParserConfig),
 	}
 	
-	// Add default parsers if not overridden
+	// Start with defaults
 	for name, parser := range defaults.Parsers {
-		if _, exists := config.Parsers[name]; !exists {
-			config.Parsers[name] = parser
+		merged.Parsers[name] = parser
+	}
+	
+	// Override with user config
+	if userConfig.Parsers != nil {
+		for name, parser := range userConfig.Parsers {
+			merged.Parsers[name] = parser
 		}
 	}
 
-	return &config, nil
+	return merged, nil
 }
 
-// getDefaultParsers returns the default built-in parser configurations
-func getDefaultParsers() *ParsersFile {
-	return &ParsersFile{
-		Parsers: map[string]ParserConfig{
-			"npm": {
-				DetectFiles: []string{"package.json"},
-				BaseCommands: map[string]string{
-					"install": "npm install",
-					"audit":   "npm audit",
-				},
-				BuiltinParser:   "package_json_scripts",
-				CommandTemplate: "npm run {key}",
-			},
-			"yarn": {
-				DetectFiles: []string{"package.json"},
-				BaseCommands: map[string]string{
-					"install": "yarn install",
-					"audit":   "yarn audit",
-				},
-				BuiltinParser:   "package_json_scripts",
-				CommandTemplate: "yarn {key}",
-			},
-			"pnpm": {
-				DetectFiles: []string{"package.json"},
-				BaseCommands: map[string]string{
-					"install": "pnpm install",
-					"audit":   "pnpm audit",
-				},
-				BuiltinParser:   "package_json_scripts",
-				CommandTemplate: "pnpm run {key}",
-			},
-			"go": {
-				DetectFiles: []string{"go.mod"},
-				BaseCommands: map[string]string{
-					"build": "go build ./...",
-					"test":  "go test ./...",
-					"fmt":   "go fmt ./...",
-					"vet":   "go vet ./...",
-					"mod":   "go mod tidy",
-				},
-			},
-		},
+// loadEmbeddedDefaults loads the embedded default configuration
+func loadEmbeddedDefaults() (*ParsersFile, error) {
+	var defaults ParsersFile
+	if err := yaml.Unmarshal(defaultParsersYAML, &defaults); err != nil {
+		return nil, fmt.Errorf("failed to parse embedded defaults: %w", err)
 	}
+	return &defaults, nil
 }
+
 
 // GetParser returns a parser configuration by name
 func (p *ParsersFile) GetParser(name string) (ParserConfig, bool) {
