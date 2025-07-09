@@ -61,13 +61,21 @@ The project types we should support intitally are:
 - [ ] Support for comments in config file
 
 ### Enhanced UI/UX
-- [ ] Colorized output
 - [ ] Preview window in fzf showing command details
 - [ ] Most recently used (MRU) commands at top
 - [ ] Command history tracking
 - [ ] Dry-run mode to preview what will be executed
 - [ ] Verbose mode for debugging
-
+- [ ] Do not show locations that do not exist
+- [ ] ability to focus specific locations
+  - either using .gopmrc.local.yaml (something like `only: location/foo` or command line argument
+  - keyboard shortcut to focus/unfocus while searching
+- [ ] aliases
+- [ ] automatically detect type of a location based on presence of package.json/go.mod/etc.
+- [ ] history of executed commands
+   - [ ] store in a file (probably some home directory config, but per "project")
+   - [ ] default sort by frecency of use
+   - [ ] allow to change sorting by keboard shortcut
 ### Advanced Features
 - [ ] Support for pre/post command hooks
 - [ ] Support for command templates/variables
