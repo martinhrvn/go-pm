@@ -162,6 +162,16 @@ The project types we should support intitally are:
 - [ ] Example .gopmrc for mixed-language monorepo
 - [ ] Advanced configuration examples
 
+### Parser Configuration System
+- [x] Support ~/.gopm/parsers.yaml configuration file
+- [x] Built-in parsers (package_json_scripts, go_standard)
+- [x] Custom command-based parsers
+- [x] Command templates with {key} substitution
+- [x] Base commands always available
+- [x] Multiple detection files per parser
+- [x] Default embedded parser configurations
+- [x] Parser command execution with proper error handling
+
 ## Release Checklist
 - [ ] Version tagging
 - [ ] Changelog updates
@@ -176,6 +186,7 @@ The project types we should support intitally are:
 - [x] Project type system implemented (npm, yarn, pnpm)
 - [x] Shell script integration complete
 - [x] Testing complete
+- [x] Parser configuration system implemented
 - [ ] Documentation complete
 - [ ] First release
 

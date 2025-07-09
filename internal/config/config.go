@@ -67,21 +67,45 @@ func processProjectTypes(config *Config) error {
 			continue
 		}
 
-		// Parse commands from the project type
-		projectCommands, err := projectType.ParseCommands(configFile)
-		if err != nil {
-			return fmt.Errorf("failed to parse commands for location %s: %w", location.Location, err)
-		}
+		// For configurable project types, get the full commands directly
+		if configurableType, ok := projectType.(*projecttypes.ConfigurableProjectType); ok {
+			// Get all commands as a map
+			commands, err := configurableType.GetAllCommands(location.Location)
+			if err != nil {
+				return fmt.Errorf("failed to parse commands for location %s: %w", location.Location, err)
+			}
 
-		// Prefix the commands with the project type command prefix
-		var prefixedCommands []string
-		for _, cmd := range projectCommands {
-			prefixedCommands = append(prefixedCommands, fmt.Sprintf("%s %s", projectType.GetCommandPrefix(), cmd))
-		}
+			// Convert to command list format
+			var commandList []string
+			for _, cmd := range commands {
+				commandList = append(commandList, cmd)
+			}
 
-		// Merge with existing commands
-		allCommands := append(location.Commands, prefixedCommands...)
-		config.Locations[i].Commands = allCommands
+			// Merge with existing commands
+			allCommands := append(location.Commands, commandList...)
+			config.Locations[i].Commands = allCommands
+		} else {
+			// Fallback to old behavior for backward compatibility
+			// Parse commands from the project type
+			projectCommands, err := projectType.ParseCommands(configFile)
+			if err != nil {
+				return fmt.Errorf("failed to parse commands for location %s: %w", location.Location, err)
+			}
+
+			// Prefix the commands with the project type command prefix
+			var prefixedCommands []string
+			for _, cmd := range projectCommands {
+				if projectType.GetCommandPrefix() != "" {
+					prefixedCommands = append(prefixedCommands, fmt.Sprintf("%s %s", projectType.GetCommandPrefix(), cmd))
+				} else {
+					prefixedCommands = append(prefixedCommands, cmd)
+				}
+			}
+
+			// Merge with existing commands
+			allCommands := append(location.Commands, prefixedCommands...)
+			config.Locations[i].Commands = allCommands
+		}
 	}
 
 	return nil
