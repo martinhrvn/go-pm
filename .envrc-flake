@@ -1,0 +1,9 @@
+# Alternative .envrc for pure Nix flake usage
+# Rename this to .envrc if you want to use the flake instead of devenv
+
+# Load the development environment
+if ! has nix_direnv_version || ! nix_direnv_version 2.3.0; then
+  source_url "https://raw.githubusercontent.com/nix-community/nix-direnv/2.3.0/direnvrc" "sha256-Dmd+j63L84wuzgyjITIfSxSD57Tx7v51DMxVZOsiUD8="
+fi
+
+use flake

@@ -107,6 +107,8 @@ The project types we should support intitally are:
 - [x] Shell completion (bash/zsh)
 - [x] Auto-detection of binary location
 - [x] Colored output and better UX
+- [x] Nix flake with complete package and development environment
+- [x] Cross-platform support (Linux/macOS)
 - [ ] Usage documentation
 - [ ] Example .gopmrc files
 - [ ] GitHub releases with binaries
