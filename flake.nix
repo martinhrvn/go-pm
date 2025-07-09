@@ -231,8 +231,8 @@
       in
       {
         packages = {
-          default = gopm;
-          gopm = gopm;
+          default = gopm-wrapper;
+          gopm = gopm-wrapper;
           gopm-bin = gopm-bin;
           gopm-wrapper = gopm-wrapper;
           gopm-completions = gopm-completions;
