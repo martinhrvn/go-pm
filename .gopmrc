@@ -8,7 +8,6 @@ locations:
       - "test"
   - name: "backend"
     location: "packages/backend"
-    type: "go"
     commands:
       - "run"
       - "test"

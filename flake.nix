@@ -31,7 +31,7 @@
           doCheck = true;
           
           # Only build the main package
-          subPackages = [ "." ];
+          subPackages = [ "cmd/gopm" ];
           
           meta = with pkgs.lib; {
             description = "Go Project Manager - A utility for quickly running commands in monorepos";
@@ -62,7 +62,8 @@
           
           # Path to the gopm binary
           GOPM_BINARY="${gopm-bin}/bin/gopm"
-          
+
+          echo $GOPM_BINARY
           # Function to show usage
           show_usage() {
               echo "gopm - Go Project Manager"

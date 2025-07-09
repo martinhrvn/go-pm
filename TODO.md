@@ -94,10 +94,11 @@ The project types we should support intitally are:
 
 ### Code Structure
 - [x] Clear separation of concerns
-- [x] Config parsing module
-- [x] Command execution module
-- [x] FZF integration module
-- [x] Project type system (npm, yarn, pnpm)
+- [x] Organized folder structure (cmd/, internal/)
+- [x] Config parsing module (internal/config)
+- [x] Command execution module (internal/commands)
+- [x] FZF integration module (internal/commands)
+- [x] Project type system (internal/projecttypes)
 - [x] Error handling throughout
 - [x] Unit tests for core functionality
 
