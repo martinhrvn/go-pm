@@ -18,7 +18,7 @@
           
           src = ./.;
           
-          vendorHash = "sha256-vPEGnHEVKvKFnbRPYO6tqnYJf8P8bKkGgLJHtI8X5R4="; # Update this hash after running nix build
+          vendorHash = "sha256-Lh/yde3GkhNDd/IH0rFj80hpkwLbLzE5N1bAUKpHMEQ=";
           
           # Build flags
           ldflags = [
