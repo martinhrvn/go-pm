@@ -5,8 +5,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/martin/go-pm/internal/config"
 	fuzzyfinder "github.com/ktr0731/go-fuzzyfinder"
+	"github.com/martin/go-pm/internal/config"
+	"github.com/martin/go-pm/internal/ui"
 )
 
 // SelectionResult represents the result of a user selection from fzf
@@ -16,18 +17,18 @@ type SelectionResult struct {
 	DisplayName string // The display name shown in fzf (for reference)
 }
 
-// ParseFzfSelection parses a fzf selection in format "[location] command" and returns command and location
+// ParseFzfSelection parses a fzf selection in format "location: command" and returns command and location
 func ParseFzfSelection(selection string) (string, string, error) {
 	if selection == "" {
 		return "", "", fmt.Errorf("empty selection")
 	}
 
-	// Match pattern: [location] command
-	re := regexp.MustCompile(`^\[([^\]]+)\]\s+(.+)$`)
+	// Match pattern: location: command
+	re := regexp.MustCompile(`^([^:]+):\s*(.+)$`)
 	matches := re.FindStringSubmatch(strings.TrimSpace(selection))
-	
+
 	if len(matches) != 3 {
-		return "", "", fmt.Errorf("invalid selection format: expected '[location] command', got: %q", selection)
+		return "", "", fmt.Errorf("invalid selection format: expected 'location: command', got: %q", selection)
 	}
 
 	location := matches[1]
@@ -48,7 +49,7 @@ func FindLocationByDisplayName(cfg *config.Config, displayName string) (*config.
 			return &location, nil
 		}
 	}
-	
+
 	return nil, fmt.Errorf("location not found: %q", displayName)
 }
 
@@ -84,16 +85,16 @@ type CommandInfo struct {
 // PrepareCommandInfo prepares command information for fuzzy finder
 func PrepareCommandInfo(cfg *config.Config) []CommandInfo {
 	var infos []CommandInfo
-	
+
 	for _, location := range cfg.Locations {
 		displayName := location.Name
 		if displayName == "" {
 			displayName = location.Location
 		}
-		
+
 		for _, command := range location.Commands {
 			info := CommandInfo{
-				Display:     fmt.Sprintf("[%s] %s", displayName, command),
+				Display:     fmt.Sprintf("%s: %s", displayName, command),
 				Directory:   location.Location,
 				Command:     command,
 				DisplayName: displayName,
@@ -101,7 +102,7 @@ func PrepareCommandInfo(cfg *config.Config) []CommandInfo {
 			infos = append(infos, info)
 		}
 	}
-	
+
 	return infos
 }
 
@@ -143,5 +144,20 @@ func RunFzf(cfg *config.Config) (*SelectionResult, error) {
 		Directory:   selected.Directory,
 		Command:     selected.Command,
 		DisplayName: selected.DisplayName,
+	}, nil
+}
+
+// RunEnhancedFzf executes the enhanced fuzzy finder with location filtering support
+func RunEnhancedFzf(cfg *config.Config) (*SelectionResult, error) {
+	selector := ui.NewTUISelector(cfg)
+	result, err := selector.Run()
+	if err != nil {
+		return nil, err
+	}
+	// Convert ui.SelectionResult to commands.SelectionResult
+	return &SelectionResult{
+		Directory:   result.Directory,
+		Command:     result.Command,
+		DisplayName: result.DisplayName,
 	}, nil
 }

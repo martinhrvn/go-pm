@@ -59,6 +59,15 @@ func handleListCommand() {
 }
 
 func handleSelectCommand() {
+	// Check for enhanced flag
+	enhanced := false
+	for _, arg := range os.Args[2:] {
+		if arg == "--enhanced" || arg == "-e" {
+			enhanced = true
+			break
+		}
+	}
+
 	// Load config from discovery
 	cfg, err := config.LoadConfigFromDiscovery()
 	if err != nil {
@@ -66,8 +75,14 @@ func handleSelectCommand() {
 		os.Exit(1)
 	}
 
-	// Run fzf selection
-	result, err := commands.RunFzf(cfg)
+	// Run fzf selection (enhanced or regular)
+	var result *commands.SelectionResult
+	if enhanced {
+		result, err = commands.RunEnhancedFzf(cfg)
+	} else {
+		result, err = commands.RunFzf(cfg)
+	}
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error with selection: %v\n", err)
 		os.Exit(1)
@@ -88,10 +103,12 @@ func showUsage() {
 	fmt.Println("    list                     List all available location:command pairs")
 	fmt.Println("    list --format=fzf        List commands in fzf format")
 	fmt.Println("    select                   Interactive command selection with fzf")
+	fmt.Println("    select --enhanced        Enhanced TUI selection with location filtering")
 	fmt.Println("    help                     Show this help message")
 	fmt.Println()
 	fmt.Println("EXAMPLES:")
 	fmt.Println("    gopm list")
 	fmt.Println("    gopm list --format=fzf")
 	fmt.Println("    gopm select")
+	fmt.Println("    gopm select --enhanced")
 }
